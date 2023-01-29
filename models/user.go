@@ -17,10 +17,12 @@ type User struct {
 func CreateUserModel(user_name string, password string) bool {
 	db := InitModel()
 	var user User
-	if !QueryUserModel(&user, user_name) {
+	if QueryUserModel(&user, user_name) {
+		fmt.Println("[models.user] Fail to create user:", user_name)
 		return false
 	}
 	db.Create(&User{UserName: user_name, Password: MD5(password)})
+	fmt.Println("[models.user] Create user:", user_name)
 	return true
 }
 
@@ -31,9 +33,10 @@ func LoginUserModel(user_name string, password string) bool {
 		return false
 	}
 	if user.Password != MD5(password) {
-		fmt.Println(user_name + " password error!")
+		fmt.Println("[models.user]", user_name, "password error!")
 		return false
 	}
+	fmt.Println("[models.user]", user_name, "login success.")
 	return true
 }
 
@@ -42,10 +45,10 @@ func QueryUserModel(user *User, user_name string) bool {
 	db := InitModel()
 	db.First(user, "user_name = ?", user_name)
 	if user.ID > 0 {
-		fmt.Println(user.UserName, "exist")
+		fmt.Println("[models.user]", user_name, "exist")
 		return true
 	}
-	fmt.Println(user.UserName, "not exist")
+	fmt.Println("[models.user]", user_name, "not exist")
 	return false
 }
 
