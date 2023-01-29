@@ -16,6 +16,11 @@ func main() {
 		user.POST("/login", routers.LoginHandler)
 	}
 
+	book := r.Group("/book")
+	{
+		book.GET("/search", routers.SearchHandler)
+		// book.GET("/search", routers.TestGo)
+	}
 	// // 读取内容
 	// var product Product
 	// db.First(&product, 1)                 // find product with integer primary key
