@@ -13,12 +13,10 @@ func CreateBookSelf(c *gin.Context) {
 	name := c.PostForm("name")
 
 	response := gin.H{"code": 0}
+	user, _ := c.Get("user_model")
 
-	if name != "" {
-		user, _ := c.Get("user_model")
-		models.CreateBookSelfModel(name, uint32(user.(models.User).ID))
-	} else {
-		fmt.Println("[routers.book_self] name is empty.")
+	if name != "" || !models.CreateBookSelfModel(name, uint32(user.(models.User).ID)) {
+		fmt.Println("[routers.book_self] name is empty or create error.")
 		response["code"] = 1
 	}
 
