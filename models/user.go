@@ -42,10 +42,14 @@ func LoginUserModel(user_name string, password string) bool {
 
 // 用户查询
 func QueryUserModel(user *User, user_name string) bool {
+	if user_name == "" {
+		fmt.Println("[models.user] user_name empty.")
+		return false
+	}
 	db := InitModel()
 	db.First(user, "user_name = ?", user_name)
 	if user.ID > 0 {
-		fmt.Println("[models.user]", user_name, "exist")
+		fmt.Println("[models.user] found:", user_name)
 		return true
 	}
 	fmt.Println("[models.user]", user_name, "not exist")

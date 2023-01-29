@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"reading-record-web/models"
+	"reading-record-web/tools"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,6 +31,8 @@ func LoginHandler(c *gin.Context) {
 	response := gin.H{"code": 0}
 	if !models.LoginUserModel(user_name, password) {
 		response["code"] = 1
+	} else {
+		response["token"] = tools.GenToken(user_name)
 	}
 	fmt.Println("[routers.user][Login] response: ", response)
 	c.JSON(http.StatusOK, response)

@@ -17,9 +17,17 @@ func main() {
 	}
 
 	book := r.Group("/book")
+	book.Use(routers.AuthMiddleware(true))
 	{
 		book.GET("/search", routers.SearchHandler)
 		// book.GET("/search", routers.TestGo)
+	}
+
+	book_self := r.Group("/bookself")
+	book_self.Use(routers.AuthMiddleware(true))
+	{
+		book_self.POST("/create", routers.CreateBookSelf)
+		book_self.POST("/list", routers.GetBookSelf)
 	}
 	// // 读取内容
 	// var product Product

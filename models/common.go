@@ -14,5 +14,7 @@ func InitModel() *gorm.DB {
 	// Migrate the schema
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Book{})
+	db.AutoMigrate(&BookSelf{})
+	db.AutoMigrate(&RecordItem{})
 	return db
 }
